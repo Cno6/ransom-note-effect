@@ -19,6 +19,11 @@
         'text-stroke': letter.textStroke,
         transform: letter.transformRotate,
         'clip-path': letter.corners,
+        'background-image': letter.bgTexture,
+        'background-repeat': 'no-repeat',
+        'background-size': '150% 150%',
+        'background-position': 'center',
+        'background-blend-mode': letter.blendMode,
       }"
       class="whitespace-pre-wrap leading-none shadow-md mr-5 overflow-hidden"
       >{{ letter.letter }}</span
@@ -69,7 +74,7 @@ TODO:
   [x] Добавить генерацию случайного фона (цвет).
   [x] Добавить border в 10% случаев.
   [x] Добавить случайный поворот.
-  8. Добавить случайную текстуру фона.
+  [x] Добавить случайную текстуру фона.
 */
 
 export default {
@@ -215,7 +220,18 @@ export default {
 
         const cornersTemplate = `polygon(${corners[0][0]}% ${corners[0][1]}%, ${corners[1][0]}% ${corners[1][1]}%, ${corners[2][0]}% ${corners[2][1]}%, ${corners[3][0]}% ${corners[3][1]}%)`;
 
-        console.log(cornersTemplate);
+        // BACKGROUND TEXTURES
+        let bgTexture;
+        let blendMode = 'multiply';
+        if (Math.random() > 0.8) {
+          let numImage = Math.floor(Math.random() * (9 - 1) + 1);
+          bgTexture = `url(${require('@/assets/textures/texture-' + numImage + '.png')})`;
+          if (numImage == 4) {
+            blendMode = 'soft-light';
+          }
+        } else {
+          bgTexture = false;
+        }
 
         return {
           letter: l,
@@ -231,6 +247,8 @@ export default {
           textStroke: textStroke,
           transformRotate: rotate,
           corners: cornersTemplate,
+          bgTexture: bgTexture,
+          blendMode: blendMode,
         };
       });
     },
