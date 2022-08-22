@@ -24,6 +24,7 @@
         'background-size': '150% 150%',
         'background-position': 'center',
         'background-blend-mode': letter.blendMode,
+        'font-weight': letter.fontWeight,
       }"
       class="whitespace-pre-wrap leading-none shadow-md mr-5 overflow-hidden"
       >{{ letter.letter }}</span
@@ -233,6 +234,9 @@ export default {
           bgTexture = false;
         }
 
+        // WEIGHT
+        const fontWeight = Math.round(Math.random() * (9 - 1) + 1) * 100;
+
         return {
           letter: l,
           font: fontFamilyCssValue,
@@ -249,6 +253,7 @@ export default {
           corners: cornersTemplate,
           bgTexture: bgTexture,
           blendMode: blendMode,
+          fontWeight: fontWeight,
         };
       });
     },
