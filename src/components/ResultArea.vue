@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-wrap justify-center items-center self-stretch">
+  <div class="flex flex-wrap justify-center items-center self-stretch" ref="div">
     <span
       v-for="(letter, idx) of calculatedResult"
       :key="idx"
@@ -18,6 +18,7 @@
         visibility: letter.visibility,
         'text-stroke': letter.textStroke,
         transform: letter.transformRotate,
+        'clip-path': letter.corners,
       }"
       class="whitespace-pre-wrap leading-none shadow-md mr-5 overflow-hidden"
       >{{ letter.letter }}</span
@@ -59,14 +60,14 @@ const FONTS = [
   'Yeseva One',
 ];
 
-/* 
-TODO: 
+/*
+TODO:
   [x] Сделать visibility: hidden, если символ = пробел
   2. Делать новую строку по нажатию Enter в Input
   [x] Сделать добавление случайных margin
   [x] Переделать случайные padding с right-top на все значения.
   [x] Добавить генерацию случайного фона (цвет).
-  [x] Добавить border в 10% случаев. 
+  [x] Добавить border в 10% случаев.
   [x] Добавить случайный поворот.
   8. Добавить случайную текстуру фона.
 */
@@ -150,7 +151,7 @@ export default {
         const bgColor = `${COLORS[randomBgColorIndex]}`;
 
         let visibility = 'visible';
-        if (l === ' ') {
+        if (l === ' ' || l === '\n') {
           visibility = 'hidden';
         }
 
@@ -165,12 +166,56 @@ export default {
         const hasRotate = Math.random();
         let rotate = `rotate(0deg)`;
         if (hasRotate < 0.3) {
-          const randomRotateDegree = Math.random() * (35 + 35) - 35;
+          const randomRotateDegree = Math.random() * (25 + 25) - 25;
           rotate = `rotate(${randomRotateDegree}deg)`;
         } else {
           const randomRotateDegree = Math.random() * (4 + 4) - 4;
           rotate = `rotate(${randomRotateDegree}deg)`;
         }
+
+        // CORNERS
+        const corners = [[], [], [], []];
+        const cornerMax = 10;
+
+        corners.forEach((corn, index) => {
+          switch (index) {
+            case 0:
+              if (Math.random() > 0.5) {
+                corn.push(Math.random() * cornerMax, Math.random() * cornerMax);
+              } else {
+                corn.push(0, 0);
+              }
+              break;
+            case 1:
+              if (Math.random() > 0.5) {
+                corn.push(Math.random() * (100 - (100 - cornerMax)) + (100 - cornerMax), Math.random() * cornerMax);
+              } else {
+                corn.push(100, 0);
+              }
+              break;
+            case 2:
+              if (Math.random() > 0.5) {
+                corn.push(
+                  Math.random() * (100 - (100 - cornerMax)) + (100 - cornerMax),
+                  Math.random() * (100 - (100 - cornerMax)) + (100 - cornerMax)
+                );
+              } else {
+                corn.push(100, 100);
+              }
+              break;
+            case 3:
+              if (Math.random() > 0.5) {
+                corn.push(Math.random() * cornerMax, Math.random() * (100 - (100 - cornerMax)) + (100 - cornerMax));
+              } else {
+                corn.push(0, 100);
+              }
+              break;
+          }
+        });
+
+        const cornersTemplate = `polygon(${corners[0][0]}% ${corners[0][1]}%, ${corners[1][0]}% ${corners[1][1]}%, ${corners[2][0]}% ${corners[2][1]}%, ${corners[3][0]}% ${corners[3][1]}%)`;
+
+        console.log(cornersTemplate);
 
         return {
           letter: l,
@@ -185,6 +230,7 @@ export default {
           visibility: visibility,
           textStroke: textStroke,
           transformRotate: rotate,
+          corners: cornersTemplate,
         };
       });
     },
