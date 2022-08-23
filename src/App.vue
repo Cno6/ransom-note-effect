@@ -10,8 +10,8 @@
   </modal-window>
   <main class="mx-12 my-8 grid grid-cols-[300px_1fr] gap-8">
     <query-area v-model:query="query" />
-    <result-area class="row-span-2" :query="query" />
-    <setting-area />
+    <result-area class="row-span-2" :query="query" :params="settingParams" />
+    <setting-area @update-setting="handleSettingsUpdate" />
   </main>
 </template>
 
@@ -27,11 +27,15 @@ export default {
     return {
       isModalOpen: false,
       query: '',
+      settingParams: null,
     };
   },
   methods: {
     closeModal() {
       this.isModalOpen = false;
+    },
+    handleSettingsUpdate(params) {
+      this.settingParams = params;
     },
   },
 };
