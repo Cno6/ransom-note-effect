@@ -7,8 +7,8 @@
       type="range"
       :name="name"
       :id="name"
-      min="1"
-      max="11"
+      :min="min"
+      :max="max"
       step="1"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
@@ -19,6 +19,7 @@
 
 <script>
 export default {
+  inheritAttrs: false,
   name: 'range-input',
   props: {
     name: {
@@ -28,6 +29,14 @@ export default {
     modelValue: {
       type: Number,
       default: 6,
+    },
+    min: {
+      type: Number,
+      default: 1,
+    },
+    max: {
+      type: Number,
+      default: 11,
     },
   },
 };

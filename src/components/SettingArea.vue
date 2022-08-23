@@ -14,7 +14,7 @@
         </template>
       </range-input>
 
-      <range-input :name="'rotate-angle'" v-model.number="params.rotateAngle">
+      <range-input :name="'rotate-angle'" v-model.number="params.rotateAngle" :max="12">
         <template #label>Максимальный угол поворота:</template>
 
         <template #leftParam>
@@ -76,7 +76,7 @@ export default {
     return {
       params: {
         fontSize: 6,
-        rotateAngle: 6,
+        rotateAngle: 1,
         bgWidth: 6,
         bgHeight: 6,
         margins: 6,
@@ -91,6 +91,9 @@ export default {
       },
       deep: true,
     },
+  },
+  mounted() {
+    this.$emit('updateSetting', this.params);
   },
 };
 </script>

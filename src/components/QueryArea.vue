@@ -4,7 +4,7 @@
     @input="makeQuary"
     name="query-area"
     cols="30"
-    rows="10"
+    rows="3"
     placeholder="Введите текст здесь..."
     class="outline-none border-none p-5 rounded-md resize-none shadow-md"
   ></textarea>
