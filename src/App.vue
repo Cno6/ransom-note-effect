@@ -10,8 +10,14 @@
   </modal-window>
   <main class="mx-12 my-8 grid grid-cols-[300px_1fr] gap-8">
     <query-area v-model:query="query" />
-    <result-area class="row-span-2" :query="query" :params="settingParams" />
+    <result-area class="row-span-3" :query="query" :params="settingParams" :key="componentKey" />
     <setting-area @update-setting="handleSettingsUpdate" />
+    <button
+      class="bg-emerald-400 text-white py-3 rounded-xl w-2/3 justify-self-center hover:bg-emerald-300 transition-colors active:bg-emerald-500"
+      @click.prevent="componentKey++"
+    >
+      Сгенерировать
+    </button>
   </main>
 </template>
 
@@ -28,6 +34,7 @@ export default {
       isModalOpen: false,
       query: '',
       settingParams: null,
+      componentKey: 0,
     };
   },
   methods: {
