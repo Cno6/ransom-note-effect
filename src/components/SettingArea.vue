@@ -1,51 +1,70 @@
 <template>
   <div class="p-5 rounded-md shadow-md bg-white">
-    <h2 class="pb-4 border-b border-b-gray-200">Настройки</h2>
+    <h2 class="pb-4 mb-3 border-b border-b-gray-200">Настройки</h2>
     <form>
-      <div class="mt-3">
-        <label class="font-medium" for="font-size">Размер шрифта:</label><br />
-        <div class="mt-2 flex items-center justify-between">
+      <range-input :name="'font-size'" v-model.number="params.fontSize">
+        <template #label>Размер шрифта:</template>
+
+        <template #leftParam>
           <span class="text-sm">A</span>
-          <input class="basis-3/5" type="range" name="font-size" id="font-size" min="1" max="10" step="1" />
+        </template>
+
+        <template #rightParam>
           <span class="text-xl">A</span>
-        </div>
-      </div>
-      <div class="mt-3">
-        <label class="font-medium" for="rotate-angle">Максимальный угол поворота:</label><br />
-        <div class="mt-2 flex justify-between">
+        </template>
+      </range-input>
+
+      <range-input :name="'rotate-angle'" v-model.number="params.rotateAngle">
+        <template #label>Максимальный угол поворота:</template>
+
+        <template #leftParam>
           <span class="text-md self-start">0&deg;</span>
-          <input class="basis-3/5" type="range" name="rotate-angle" id="rotate-angle" min="1" max="10" step="1" />
+        </template>
+
+        <template #rightParam>
           <span class="text-md">360&deg;</span>
-        </div>
-      </div>
-      <div class="mt-3">
-        <label class="font-medium" for="bg-width">Ширина "вырезок":</label><br />
-        <div class="mt-2 flex justify-between">
+        </template>
+      </range-input>
+
+      <range-input :name="'bg-width'" v-model.number="params.bgWidth">
+        <template #label>Ширина фона:</template>
+
+        <template #leftParam>
           <span class="text-md self-start">&#9646;</span>
-          <input class="basis-3/5" type="range" name="bg-width" id="bg-width" min="1" max="10" step="1" />
+        </template>
+
+        <template #rightParam>
           <span class="text-md">&#9632;</span>
-        </div>
-      </div>
-      <div class="mt-3">
-        <label class="font-medium" for="bg-height">Высота "вырезок":</label><br />
-        <div class="mt-2 flex justify-between">
+        </template>
+      </range-input>
+
+      <range-input :name="'bg-height'" v-model.number="params.bgHeight">
+        <template #label>Высота фона:</template>
+
+        <template #leftParam>
           <span class="text-md self-start">&#9632;</span>
-          <input class="basis-3/5" type="range" name="bg-height" id="bg-height" min="1" max="10" step="1" />
+        </template>
+
+        <template #rightParam>
           <span class="text-md">&#9644;</span>
-        </div>
-      </div>
-      <div class="mt-3">
-        <label class="font-medium" for="margins">Отступы между буквами:</label><br />
-        <div class="mt-2 flex items-center justify-between">
+        </template>
+      </range-input>
+
+      <range-input :name="'margins'" v-model.number="params.margins">
+        <template #label>Отступы между буквами:</template>
+
+        <template #leftParam>
           <span class="text-md tracking-normal">AB</span>
-          <input class="basis-3/5" type="range" name="margins" id="margins" min="1" max="10" step="1" />
+        </template>
+
+        <template #rightParam>
           <span class="text-md tracking-[.5em]">AB</span>
-        </div>
-      </div>
-      <div class="mt-3">
-        <label class="font-medium" for="bg-texture">Текстуры для фона:</label>
-        <input class="ml-3 align-middle" type="checkbox" name="bg-texture" id="bg-texture" value="isTextured" checked />
-      </div>
+        </template>
+      </range-input>
+
+      <check-input :checked="true" :name="'bg-texture'" v-model="params.isTextured">
+        <template #label>Текстуры для фона:</template>
+      </check-input>
     </form>
   </div>
 </template>
@@ -53,7 +72,25 @@
 <script>
 export default {
   name: 'setting-area',
+  data() {
+    return {
+      params: {
+        fontSize: 6,
+        rotateAngle: 6,
+        bgWidth: 6,
+        bgHeight: 6,
+        margins: 6,
+        isTextured: true,
+      },
+    };
+  },
+  watch: {
+    params: {
+      handler() {
+        this.$emit('updateSetting', this.params);
+      },
+      deep: true,
+    },
+  },
 };
 </script>
-
-<style lang="scss" scoped></style>
